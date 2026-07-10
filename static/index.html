@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeverUp C2 Framework</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Framework Header -->
+    <div class="framework-header">
+        <div class="header-content">
+            <h1>LEVERUP C2 FRAMEWORK</h1>
+            <div class="header-subtitle">
+                <span class="version">v1.0.0</span>
+                <span class="tagline">Advanced Command & Control Platform</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Left Panel: Sessions -->
+        <div class="panel panel-left">
+            <div class="panel-header">
+                <span><i class="fas fa-robot"></i> Active Bots</span>
+                <span id="bot-count">0</span>
+            </div>
+            <div class="server-controls">
+                <button class="btn btn-success" onclick="startServer()">
+                    <i class="fas fa-play"></i> Start C2
+                </button>
+                <button class="btn btn-danger" onclick="stopServer()">
+                    <i class="fas fa-stop"></i> Stop C2
+                </button>
+                <button class="btn" onclick="selectAll()">
+                    <i class="fas fa-check-double"></i> All
+                </button>
+                <button class="btn" onclick="clearSelection()">
+                    <i class="fas fa-times"></i> None
+                </button>
+            </div>
+            <div class="panel-content">
+                <div id="bot-list" class="bot-list">
+                    <!-- Bot items will be added here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Center Panel: Workspace -->
+        <div class="panel panel-center">
+            <div class="panel-header">
+                <span><i class="fas fa-terminal"></i> Command Center</span>
+                <span id="selected-count">0 selected</span>
+            </div>
+            
+            <!-- Command Buttons -->
+            <div class="command-buttons" id="command-buttons">
+                <!-- Buttons will be added by JavaScript -->
+            </div>
+            
+            <!-- Shell Command Input -->
+            <div id="shell-input-container" class="shell-input-container" style="display: none;">
+                <div class="shell-header">
+                    <i class="fas fa-terminal"></i> Shell Mode - <span id="shell-bot-name">Unknown</span>
+                    <button class="btn btn-sm btn-danger" onclick="exitShellMode()">
+                        <i class="fas fa-sign-out-alt"></i> Exit Shell
+                    </button>
+                </div>
+                <div class="shell-input-area">
+                    <input type="text" id="shell-command-input" placeholder="Enter shell command (type 'exit' to quit shell)..." 
+                           onkeypress="if(event.key === 'Enter') sendShellCommand()">
+                    <button class="btn btn-sm btn-success" onclick="sendShellCommand()">
+                        <i class="fas fa-paper-plane"></i> Send
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Output Area -->
+            <div class="panel-content">
+                <div id="output-area" class="output-area">
+                    <div class="welcome-message">
+                        <h3><i class="fas fa-satellite-dish"></i> LeverUp C2 Control Panel</h3>
+                        <p>Start the C2 Server and wait for bot connections.</p>
+                        <p><strong>Bot Connection Port:</strong> 8080</p>
+                        <p><strong>Bot Command:</strong> bot.exe YOUR_IP 8080</p>
+                        <p>Select bots from the left panel to send commands.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Events -->
+        <div class="panel panel-right">
+            <div class="panel-header">
+                <span><i class="fas fa-history"></i> Event Logs</span>
+                <button class="btn btn-sm" onclick="clearEvents()">
+                    <i class="fas fa-trash"></i> Clear
+                </button>
+            </div>
+            <div class="event-filters">
+                <button class="filter-btn active" onclick="filterEvents('all')">All</button>
+                <button class="filter-btn" onclick="filterEvents('success')">Success</button>
+                <button class="filter-btn" onclick="filterEvents('error')">Error</button>
+                <button class="filter-btn" onclick="filterEvents('warning')">Warning</button>
+                <button class="filter-btn" onclick="filterEvents('rdp')">RDP</button>
+            </div>
+            <div class="panel-content">
+                <div id="event-list" class="event-list">
+                    <!-- Events will be added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div class="status-indicators">
+            <div class="status-item">
+                <div class="status-dot offline" id="server-status"></div>
+                <span id="server-text">C2 Server: Stopped</span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-robot"></i>
+                <span id="connected-bots">Bots: 0</span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-bolt"></i>
+                <span id="last-activity">Last: --:--:--</span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-terminal"></i>
+                <span id="shell-status">Shell: Off</span>
+            </div>
+        </div>
+        <div>
+            <span id="status-message">Ready</span>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+</html>

